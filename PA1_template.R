@@ -8,10 +8,6 @@ avgstepsinterval <- data.frame(aggregate(newdata$steps, by=list(newdata$interval
 plot(avgstepsinterval$Group.1, avgstepsinterval$x, type="l")
 avgstepsinterval$Group.1[which.max(avgstepsinterval$x)]
 
-
-df_NA <- df[!complete.cases(data),]
-nrow(df_NA)
-
 new=data
 for (row in 1:length(new$steps)){
   if(is.na(new[row,1])){
