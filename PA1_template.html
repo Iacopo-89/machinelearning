@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -210,3 +211,217 @@ $(document).ready(function () {
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title></title>
+
+<script src="PA1_template_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="PA1_template_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="PA1_template_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="PA1_template_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="PA1_template_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="PA1_template_files/highlight/default.css"
+      type="text/css" />
+<script src="PA1_template_files/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="PA1_template_files/navigation-1.0/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+</div>
+
+
+<div id="reproducible-research-project" class="section level1">
+<h1>Reproducible Research Project</h1>
+<div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
+<h2>What is mean total number of steps taken per day?</h2>
+<div id="loading-data" class="section level4">
+<h4>Loading Data</h4>
+<pre class="r"><code>data &lt;- read.csv(&quot;activity.csv&quot;, header=TRUE, sep=&quot;,&quot;)</code></pre>
+</div>
+<div id="omitting-na-and-create-some-aggregations-to-get-the-hists-data." class="section level4">
+<h4>Omitting NA and create some aggregations to get the hist’s data.</h4>
+<pre class="r"><code>newdata &lt;- na.omit(data)
+avg &lt;- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = mean))
+sum &lt;- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = sum))
+median &lt;- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = median))</code></pre>
+<pre class="r"><code>hist(sum$x, main=&quot;Total number of steps taken each day&quot;, xlab= &quot;day&quot;, col=c(&quot;blue&quot;), breaks=20)</code></pre>
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-3-1.png" alt="" /><!-- --> #### Mean and Median</p>
+<pre class="r"><code>mean(sum$x)</code></pre>
+<pre><code>## [1] 10766.19</code></pre>
+<pre class="r"><code>median(sum$x)</code></pre>
+<pre><code>## [1] 10765</code></pre>
+</div>
+</div>
+<div id="what-is-the-average-daily-activity-pattern" class="section level2">
+<h2>What is the average daily activity pattern?</h2>
+<pre class="r"><code>avgstepsinterval &lt;- data.frame(aggregate(newdata$steps, by=list(newdata$interval), FUN = mean))</code></pre>
+<div id="make-a-ts-series-plot-i.e.-type-l-of-the-5-minute-interval-x-axis-and-the-average-number-of-steps-taken-averaged-across-all-days-y-axis" class="section level4">
+<h4>Make a ts series plot (i.e. type = “l” ) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)</h4>
+<pre class="r"><code>plot(avgstepsinterval$Group.1, avgstepsinterval$x, type=&quot;l&quot;)</code></pre>
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-6-1.png" alt="" /><!-- --></p>
+<pre class="r"><code>avgstepsinterval$Group.1[which.max(avgstepsinterval$x)]</code></pre>
+<pre><code>## [1] 835</code></pre>
+</div>
+</div>
+<div id="imputing-missing-values-new-histogram-and-results" class="section level2">
+<h2>Imputing missing values, new histogram and results</h2>
+<pre class="r"><code>new=data
+for (row in 1:length(new$steps)){
+  if(is.na(new[row,1])){
+    new[row,1]=avgstepsinterval[avgstepsinterval$Group.1==new[row,3],2]
+  }
+}
+
+newagg=aggregate(new$steps,by=list(new$date),FUN=sum)
+hist(newagg$x,breaks=20,labels=unique(newagg$x[order(newagg$x)]),main=&quot;Histogram of steps by day&quot;,xlab=&quot;Steps&quot;)</code></pre>
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-7-1.png" alt="" /><!-- --></p>
+<pre class="r"><code>mean(newagg$x)</code></pre>
+<pre><code>## [1] 10766.19</code></pre>
+<pre class="r"><code>median(newagg$x)</code></pre>
+<pre><code>## [1] 10766.19</code></pre>
+</div>
+<div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
+<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<div id="create-a-factor-variable-for-weekdays-vs-weekend" class="section level4">
+<h4>Create a factor variable for weekdays vs weekend</h4>
+<pre class="r"><code>new$date &lt;- as.Date(new$date)
+new$dayOfWeek=weekdays(new$date)
+new$daytype=ifelse(new$dayOfWeek==&quot;sabato&quot;|new$dayOfWeek==&quot;domenica&quot;,&quot;Weekend&quot;,&quot;Weekday&quot;)
+new$daytype=as.factor(new$daytype)
+new$interval=as.factor(new$interval)</code></pre>
+</div>
+</div>
+<div id="weekend-vs-weekdays-plot" class="section level2">
+<h2>Weekend vs Weekdays plot</h2>
+<pre class="r"><code>library(ggplot2)
+lastagg=aggregate(new$steps,list(as.factor(new$interval),as.factor(new$daytype)),mean)
+plot &lt;- ggplot(lastagg, aes(x = as.integer(Group.1), y=x)) + geom_line()
+plot + facet_grid(Group.2~.)+xlab(&quot;Interval&quot;)+ylab(&quot;Average Steps in Interval&quot;)</code></pre>
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-9-1.png" alt="" /><!-- --></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+>>>>>>> origin/master
