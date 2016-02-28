@@ -1,6 +1,7 @@
 ---
 output: 
   html_document: 
+    self_contained: no
     fig_caption: yes
 ---
 # Reproducible Research Project
