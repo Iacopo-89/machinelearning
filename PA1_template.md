@@ -1,11 +1,3 @@
----
-output: 
-  html_document: 
-    fig_caption: yes
-    keep_md: yes
-    number_sections: yes
-    toc: yes
----
 # Reproducible Research Project
 
 
@@ -29,7 +21,7 @@ median <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = media
 hist(sum$x, main="Total number of steps taken each day", xlab= "day", col=c("blue"), breaks=20)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 #### Mean and Median
 
 ```r
@@ -58,7 +50,7 @@ avgstepsinterval <- data.frame(aggregate(newdata$steps, by=list(newdata$interval
 plot(avgstepsinterval$Group.1, avgstepsinterval$x, type="l")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
 ```r
 avgstepsinterval$Group.1[which.max(avgstepsinterval$x)]
@@ -81,7 +73,7 @@ newagg=aggregate(new$steps,by=list(new$date),FUN=sum)
 hist(newagg$x,breaks=20,labels=unique(newagg$x[order(newagg$x)]),main="Histogram of steps by day",xlab="Steps")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
 
 ```r
 mean(newagg$x)
@@ -117,4 +109,4 @@ plot <- ggplot(lastagg, aes(x = as.integer(Group.1), y=x)) + geom_line()
 plot + facet_grid(Group.2~.)+xlab("Interval")+ylab("Average Steps in Interval")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
