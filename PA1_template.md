@@ -6,7 +6,7 @@
 ####Loading Data
 
 ```r
-data <- read.csv("C://Users//User//Documents//activity.csv", header=TRUE, sep=",")
+data <- read.csv("activity.csv", header=TRUE, sep=",")
 ```
 #### Omitting NA and create some aggregations to get the hist's data.
 
