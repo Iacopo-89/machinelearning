@@ -1,3 +1,8 @@
+---
+output: 
+  html_document: 
+    fig_caption: yes
+---
 # Reproducible Research Project
 
 
