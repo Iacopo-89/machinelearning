@@ -4,6 +4,8 @@ avg <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = mean))
 sum <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = sum))
 median <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = median))
 hist(sum$x, main="Total number of steps taken each day", xlab= "day", col=c("blue"), breaks=20)
+mean(sum$x)
+median(sum$x)
 avgstepsinterval <- data.frame(aggregate(newdata$steps, by=list(newdata$interval), FUN = mean))
 plot(avgstepsinterval$Group.1, avgstepsinterval$x, type="l")
 avgstepsinterval$Group.1[which.max(avgstepsinterval$x)]

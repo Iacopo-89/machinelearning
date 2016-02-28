@@ -1,41 +1,38 @@
----
-title: "Rep course"
-author: "iac"
-date: "06 febbraio 2016"
-output: html_document
----
+# Reproducible Research Project
 
 
+## What is mean total number of steps taken per day?
+
+####Loading Data
 ```{r}
-# What is mean total number of steps taken per day?
-## Load the data 
 data <- read.csv("C://Users//User//Documents//activity.csv", header=TRUE, sep=",")
-
-## Omitting NA and create some aggregations to get the hist's data.
+```
+#### Omitting NA and create some aggregations to get the hist's data.
+```{r}
 newdata <- na.omit(data)
-avg <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = mean)) 
+avg <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = mean))
 sum <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = sum))
 median <- data.frame(aggregate(newdata$steps, by=list(newdata$date), FUN = median))
-#Histogram, mean and median
+```
+```{r}
 hist(sum$x, main="Total number of steps taken each day", xlab= "day", col=c("blue"), breaks=20)
+```
+#### Mean and Median
+```{r}
 mean(sum$x)
 median(sum$x)
-
-# What is the average daily activity pattern?
-
-## Make a time series plot (i.e.  type = "l" ) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+```
+## What is the average daily activity pattern?
+```{r}
 avgstepsinterval <- data.frame(aggregate(newdata$steps, by=list(newdata$interval), FUN = mean))
+```
+#### Make a ts series plot (i.e.  type = "l" ) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+```{r}
 plot(avgstepsinterval$Group.1, avgstepsinterval$x, type="l")
-
-## Get the max
 avgstepsinterval$Group.1[which.max(avgstepsinterval$x)]
-
-# Imputing missing values
-
-## How many NAs?
-sum(is.na(data$steps))
-
-## Loop to fill NAs
+```
+## Imputing missing values, new histogram and results
+```{r}
 new=data
 for (row in 1:length(new$steps)){
   if(is.na(new[row,1])){
@@ -43,28 +40,25 @@ for (row in 1:length(new$steps)){
   }
 }
 
-## New hist with handled NAs
 newagg=aggregate(new$steps,by=list(new$date),FUN=sum)
 hist(newagg$x,breaks=20,labels=unique(newagg$x[order(newagg$x)]),main="Histogram of steps by day",xlab="Steps")
-
-## See new results
 mean(newagg$x)
 median(newagg$x)
-
-# Are there differences in activity patterns between weekdays and weekends?
-## Create a factor variable for weekdays vs weekend
+```
+## Are there differences in activity patterns between weekdays and weekends?
+#### Create a factor variable for weekdays vs weekend
+```{r}
 new$date <- as.Date(new$date)
 new$dayOfWeek=weekdays(new$date)
 new$daytype=ifelse(new$dayOfWeek=="sabato"|new$dayOfWeek=="domenica","Weekend","Weekday")
 new$daytype=as.factor(new$daytype)
 new$interval=as.factor(new$interval)
-
+```
 ## Weekend vs Weekdays plot
+```{r}
 library(ggplot2)
 lastagg=aggregate(new$steps,list(as.factor(new$interval),as.factor(new$daytype)),mean)
 plot <- ggplot(lastagg, aes(x = as.integer(Group.1), y=x)) + geom_line()
 plot + facet_grid(Group.2~.)+xlab("Interval")+ylab("Average Steps in Interval")
 
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
